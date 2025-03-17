@@ -1,0 +1,636 @@
+openapi: 3.0.0
+info:
+  title: Pokémon TCG API
+  description: API for managing Pokémon cards, users, attacks, and decks
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /pokemon-cards:
+    get:
+      summary: Get all Pokémon cards
+      responses:
+        200:
+          description: A list of Pokémon cards
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    pokedexId:
+                      type: integer
+                    type:
+                      type: string
+                    imageUrl:
+                      type: string
+                    lifePoints:
+                      type: integer
+                    attackId:
+                      type: integer
+                    height:
+                      type: integer
+                    weight:
+                      type: integer
+    post:
+      summary: Create a new Pokémon card
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        description: Pokémon card data to be created
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - pokedexId
+                - type
+                - imageUrl
+                - lifePoints
+                - attackId
+              properties:
+                name:
+                  type: string
+                pokedexId:
+                  type: integer
+                type:
+                  type: string
+                imageUrl:
+                  type: string
+                lifePoints:
+                  type: integer
+                attackId:
+                  type: integer
+      responses:
+        201:
+          description: Pokémon card created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  pokedexId:
+                    type: integer
+                  type:
+                    type: string
+                  imageUrl:
+                    type: string
+                  lifePoints:
+                    type: integer
+                  attackId:
+                    type: integer
+        500:
+          description: Failed to create Pokémon card
+
+  /pokemon-cards/{pokemonCardId}:
+    get:
+      summary: Get a Pokémon card by ID
+      parameters:
+        - in: path
+          name: pokemonCardId
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: The Pokémon card details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  pokedexId:
+                    type: integer
+                  type:
+                    type: string
+                  imageUrl:
+                    type: string
+                  lifePoints:
+                    type: integer
+                  attackId:
+                    type: integer
+        404:
+          description: Pokémon card not found
+
+    patch:
+      summary: Update a Pokémon card by ID
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - in: path
+          name: pokemonCardId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Pokémon card data to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - pokedexId
+                - type
+                - imageUrl
+                - lifePoints
+                - attackId
+              properties:
+                name:
+                  type: string
+                pokedexId:
+                  type: integer
+                type:
+                  type: string
+                imageUrl:
+                  type: string
+                lifePoints:
+                  type: integer
+                attackId:
+                  type: integer
+      responses:
+        200:
+          description: Pokémon card updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  pokedexId:
+                    type: integer
+                  type:
+                    type: string
+                  imageUrl:
+                    type: string
+                  lifePoints:
+                    type: integer
+                  attackId:
+                    type: integer
+        404:
+          description: Pokémon card not found
+        500:
+          description: Failed to update Pokémon card
+
+    delete:
+      summary: Delete a Pokémon card by ID
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - in: path
+          name: pokemonCardId
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Pokémon card deleted successfully
+        404:
+          description: Pokémon card not found
+        500:
+          description: Failed to delete Pokémon card
+
+  /users:
+    post:
+      summary: Create a new user
+      requestBody:
+        description: User data to be created
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        201:
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  email:
+                    type: string
+        500:
+          description: Failed to create user
+
+  /users/login:
+    post:
+      summary: User login
+      requestBody:
+        description: Login credentials (email & password)
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: Login successful, returns JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                  message:
+                    type: string
+        401:
+          description: Invalid credentials
+        500:
+          description: Failed to login
+  /users/{userId}:
+    get:
+      summary: Get a user by ID
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: The user details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  email:
+                    type: string
+        404:
+          description: User not found
+  /attacks:
+    get:
+      summary: Get all attacks
+      responses:
+        200:
+          description: A list of attacks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    type:
+                      type: string
+                    damages:
+                      type: integer
+    post:
+      summary: Create a new attack
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        description: Attack data to be created
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - type
+                - damages
+              properties:
+                name:
+                  type: string
+                type:
+                  type: string
+                damages:
+                  type: integer
+      responses:
+        201:
+          description: Attack created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  type:
+                    type: string
+                  damages:
+                    type: integer
+        500:
+          description: Failed to create attack
+
+  /attacks/{attackId}:
+    get:
+      summary: Get an attack by ID
+      parameters:
+        - in: path
+          name: attackId
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: The attack details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  type:
+                    type: string
+                  damages:
+                    type: integer
+        404:
+          description: Attack not found
+
+    patch:
+      summary: Update an attack by ID
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - in: path
+          name: attackId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Attack data to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - type
+                - damages
+              properties:
+                name:
+                  type: string
+                type:
+                  type: string
+                damages:
+                  type: integer
+      responses:
+        200:
+          description: Attack updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  type:
+                    type: string
+                  damages:
+                    type: integer
+        404:
+          description: Attack not found
+        500:
+          description: Failed to update attack
+
+    delete:
+      summary: Delete an attack by ID
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - in: path
+          name: attackId
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Attack deleted successfully
+        404:
+          description: Attack not found
+        500:
+          description: Failed to delete attack
+
+  /decks:
+    get:
+      summary: Get all decks
+      responses:
+        200:
+          description: A list of decks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    ownerId:
+                      type: integer
+                    cards:
+                      type: array
+                      items:
+                        type: integer
+    post:
+      summary: Create a new deck
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        description: Deck data to be created
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - cards
+              properties:
+                name:
+                  type: string
+                cards:
+                  type: array
+                  items:
+                    type: integer
+      responses:
+        201:
+          description: Deck created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  ownerId:
+                    type: integer
+                  cards:
+                    type: array
+                    items:
+                      type: integer
+        500:
+          description: Failed to create deck
+
+  /decks/{deckId}:
+    get:
+      summary: Get a deck by ID
+      parameters:
+        - in: path
+          name: deckId
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: The deck details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  ownerId:
+                    type: integer
+                  cards:
+                    type: array
+                    items:
+                      type: integer
+        404:
+          description: Deck not found
+
+    patch:
+      summary: Update a deck by ID
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - in: path
+          name: deckId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Deck data to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - cards
+              properties:
+                name:
+                  type: string
+                cards:
+                  type: array
+                  items:
+                    type: integer
+      responses:
+        200:
+          description: Deck updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  ownerId:
+                    type: integer
+                  cards:
+                    type: array
+                    items:
+                      type: integer
+        404:
+          description: Deck not found
+        500:
+          description: Failed to update deck
+
+    delete:
+      summary: Delete a deck by ID
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - in: path
+          name: deckId
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Deck deleted successfully
+        404:
+          description: Deck not found
+        500:
+          description: Failed to delete deck
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
