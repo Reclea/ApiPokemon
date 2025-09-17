@@ -1,31 +1,30 @@
-# 🐉 API Pokémon - Projet Web 🎮
+# 🐉 Pokémon API - Web Project 🎮
 
 ## 🌟 Description
 
-Ce projet consiste à créer une **API Pokémon** qui récupère les Pokémon de la **Génération 1** et les affiche sur un **site web interactif**. Chaque Pokémon est présenté sous forme de **carte** avec ses caractéristiques principales :  
+This project is about creating a **Pokémon API** that fetches **Generation 1 Pokémon** and displays them on an **interactive website**. Each Pokémon is presented as a **card** with its main stats:  
 
-- ❤️ PV (Points de Vie)  
-- ⚔️ Attaque  
-- 🛡 Défense  
+- ❤️ HP (Hit Points)  
+- ⚔️ Attack  
+- 🛡 Defense  
 - 🔥 Type  
 
-De plus, il est possible de :  
-- 🃏 Créer des **decks personnalisés**  
-- 💾 Sauvegarder vos decks pour y accéder plus tard  
+Additionally, users can:  
+- 🃏 Create **custom decks**  
+- 💾 Save your decks to access them later  
 
-## 🛠️ Fonctionnalités
+## 🛠️ Features
 
-1. 🌐 Affichage des Pokémon en cartes interactives  
-2. 📊 Visualisation des caractéristiques de chaque Pokémon  
-3. 🏗 Création et gestion de **decks personnalisés**  
-4. 💾 Sauvegarde des decks  
+1. 🌐 Display Pokémon as interactive cards  
+2. 📊 View the stats of each Pokémon  
+3. 🏗 Create and manage **custom decks**  
+4. 💾 Save decks for later use  
 
-## ⚡ Technologies Utilisées
+## ⚡ Technologies Used
 
 - ⚡ TypeScript & JavaScript  
-- 🔗 API externe Pokémon (PokéAPI)  
-- 🗄️ JSON pour la sauvegarde des decks  
-
+- 🔗 External Pokémon API (PokéAPI)  
+- 🗄️ JSON for deck storage  
 
 ## 👤 Author
 
