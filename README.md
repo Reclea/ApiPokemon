@@ -23,9 +23,8 @@ De plus, il est possible de :
 ## ⚡ Technologies Utilisées
 
 - ⚡ TypeScript & JavaScript  
-- 🌐 HTML / CSS pour le front-end  
 - 🔗 API externe Pokémon (PokéAPI)  
-- 🗄️ LocalStorage ou JSON pour la sauvegarde des decks  
+- 🗄️ JSON pour la sauvegarde des decks  
 
 
 ## 👤 Author
